@@ -1,4 +1,5 @@
 <template>
+    <StepIndicator :current-step="currentStep"></StepIndicator>
     <div id="form-container">
         <form>
             <ReviewerStep
@@ -45,14 +46,16 @@ import RatingStep from "./ReviewSteps/RatingStep.vue";
 import DetailsStep from "./ReviewSteps/DetailsStep.vue";
 import ConfirmationStep from "./ReviewSteps/ConfirmationStep.vue";
 import axios from "axios";
+import StepIndicator from "../GenericComponents/StepIndicator.vue";
 export default {
     components: {
-        ReviewerStep,
-        MovieStep,
-        RatingStep,
-        DetailsStep,
-        ConfirmationStep,
-    },
+    ReviewerStep,
+    MovieStep,
+    RatingStep,
+    DetailsStep,
+    ConfirmationStep,
+    StepIndicator
+},
     setup(props, { emit }) {
         const firstName = ref("");
         const lastName = ref("");
