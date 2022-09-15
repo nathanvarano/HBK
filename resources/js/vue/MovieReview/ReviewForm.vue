@@ -44,7 +44,7 @@ import MovieStep from "./ReviewSteps/MovieStep.vue";
 import RatingStep from "./ReviewSteps/RatingStep.vue";
 import DetailsStep from "./ReviewSteps/DetailsStep.vue";
 import ConfirmationStep from "./ReviewSteps/ConfirmationStep.vue";
-import { Axios } from "axios";
+import axios from "axios";
 export default {
     components: {
         ReviewerStep,
@@ -91,6 +91,25 @@ export default {
             currentStep.value = step;
         };
 
+        const storeReview = async function () {
+            try {
+                const { data: res } = await axios.post(
+                    `/api/movie-review/store`,
+                    {
+                        first_name: firstName.value,
+                        last_name: lastName.value,
+                        selected_movie: selectedMovie.value,
+                        movie_rating: movieRating.value,
+                        movie_review: movieReview.value,
+                        would_recommend_to_friend: wouldRecommendToFriend.value,
+                        saw_in_gold_class: sawInGoldClass.value,
+                    }
+                );
+            } catch (err) {
+                console.log('this should display an error instead')
+                console.log(err);
+            }
+        };
         return {
             firstName,
             lastName,

@@ -17,12 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('reviewer_first_name');
             $table->string('reviewer_last_name');
-            $table->integer('reviewer_age');
             $table->integer('movie_id');
-            $table->integer('rating');
-            $table->string('review');
-            $table->integer('location_id');
-            $table->boolean('viewed_in_gold_class');
+            $table->integer('movie_rating');
+            $table->string('movie_review')->nullable();
+            $table->boolean('would_recommend_to_friend');
+            $table->boolean('saw_in_gold_class');
             $table->timestamps();
         });
     }
