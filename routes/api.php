@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MovieReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::prefix('/movie-review')->group( function () {
+    Route::get('/{id}', [MovieReviewController::class, 'show']);
+    Route::post('/store', [MovieReviewController::class, 'store']);
+    Route::post('/{id}', [MovieReviewController::class, 'update']);
 });

@@ -1,11 +1,17 @@
 <template>
-    <h1>
-        Initial commit
-    </h1>
+    <div id="app-container">
+        <h1>
+            HBK example app
+        </h1>
+        <review-form></review-form>
+    </div>
 </template>
 
 <script>
-    export default {
-
+import ReviewForm from "./MovieReview/ReviewForm.vue"
+export default {
+    components: {
+        ReviewForm
     }
+}
 </script>
