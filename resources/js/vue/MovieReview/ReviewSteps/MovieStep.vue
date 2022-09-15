@@ -37,7 +37,7 @@ export default {
         const nextStep = function() {
             checkForm();
             if (!Object.values(errors.value).some(x => x)) {
-                emit('update', selectedMovie);
+                emit('update', selectedMovie.value);
             }
         }
         return {

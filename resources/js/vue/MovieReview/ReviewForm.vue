@@ -4,6 +4,7 @@
             <ReviewerStep v-if="currentStep == 1" @update="(fname, lname) => updateReviewer(fname, lname)"></ReviewerStep>
             <MovieStep v-else-if="currentStep == 2" @update="movie => updateMovie(movie)"></MovieStep>
             <RatingStep v-else-if="currentStep == 3" @update="(rating, review) => updateReview(rating, review)"></RatingStep>
+            <DetailsStep v-else-if="currentStep == 4" @update="(wouldRecommend, goldClass) => updateDetails(wouldRecommend, goldClass)"></DetailsStep>
         </form>
     </div>
 </template>
@@ -13,8 +14,9 @@ import { ref } from 'vue';
 import ReviewerStep from './ReviewSteps/ReviewerStep.vue';
 import MovieStep from './ReviewSteps/MovieStep.vue';
 import RatingStep from './ReviewSteps/RatingStep.vue';
+import DetailsStep from './ReviewSteps/DetailsStep.vue';
     export default {
-    components: { ReviewerStep, MovieStep, RatingStep },
+    components: { ReviewerStep, MovieStep, RatingStep, DetailsStep },
     setup(props, { emit }) {
         const firstName = ref('');
         const lastName = ref('');
@@ -22,6 +24,8 @@ import RatingStep from './ReviewSteps/RatingStep.vue';
         const currentStep = ref(1);
         const movieRating = ref(0);
         const movieReview = ref('');
+        const wouldRecommendToFriend = ref(false);
+        const sawInGoldClass = ref(false);
 
         const updateReviewer = function(fname, lname) {
             firstName.value = fname;
@@ -40,15 +44,23 @@ import RatingStep from './ReviewSteps/RatingStep.vue';
             currentStep.value++;
         }
 
+        const updateDetails = function(wouldRecommend, goldClass) {
+            wouldRecommendToFriend.value = wouldRecommend;
+            sawInGoldClass.value = goldClass;
+            currentStep.value++;
+        }
         return {
             firstName,
             lastName,
             selectedMovie,
             movieRating,
             movieReview,
+            wouldRecommendToFriend,
+            sawInGoldClass,
             updateReviewer,
             updateMovie,
             updateReview,
+            updateDetails,
             currentStep
         }
     }
