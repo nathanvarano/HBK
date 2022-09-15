@@ -1,54 +1,96 @@
 <template>
     <div id="form-container">
         <form>
-            <ReviewerStep v-if="currentStep == 1" @update="(fname, lname) => updateReviewer(fname, lname)"></ReviewerStep>
-            <MovieStep v-else-if="currentStep == 2" @update="movie => updateMovie(movie)"></MovieStep>
-            <RatingStep v-else-if="currentStep == 3" @update="(rating, review) => updateReview(rating, review)"></RatingStep>
-            <DetailsStep v-else-if="currentStep == 4" @update="(wouldRecommend, goldClass) => updateDetails(wouldRecommend, goldClass)"></DetailsStep>
+            <ReviewerStep
+                v-if="currentStep == 1"
+                @update="(fname, lname) => updateReviewer(fname, lname)"
+            ></ReviewerStep>
+            <MovieStep
+                v-else-if="currentStep == 2"
+                @update="(movie) => updateMovie(movie)"
+            ></MovieStep>
+            <RatingStep
+                v-else-if="currentStep == 3"
+                @update="(rating, review) => updateReview(rating, review)"
+            ></RatingStep>
+            <DetailsStep
+                v-else-if="currentStep == 4"
+                @update="
+                    (wouldRecommend, goldClass) =>
+                        updateDetails(wouldRecommend, goldClass)
+                "
+            ></DetailsStep>
+            <ConfirmationStep
+                v-else-if="currentStep == 5"
+                :first-name="firstName"
+                :last-name="lastName"
+                :selected-movie="selectedMovie"
+                :movie-rating="movieRating"
+                :movie-review="movieReview"
+                :would-recommend-to-friend="wouldRecommendToFriend"
+                :saw-in-gold-class="sawInGoldClass"
+                @returnToStep="(step) => returnToStep(step)"
+                @complete="storeReview"
+            >
+            </ConfirmationStep>
         </form>
     </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import ReviewerStep from './ReviewSteps/ReviewerStep.vue';
-import MovieStep from './ReviewSteps/MovieStep.vue';
-import RatingStep from './ReviewSteps/RatingStep.vue';
-import DetailsStep from './ReviewSteps/DetailsStep.vue';
-    export default {
-    components: { ReviewerStep, MovieStep, RatingStep, DetailsStep },
+import { ref } from "vue";
+import ReviewerStep from "./ReviewSteps/ReviewerStep.vue";
+import MovieStep from "./ReviewSteps/MovieStep.vue";
+import RatingStep from "./ReviewSteps/RatingStep.vue";
+import DetailsStep from "./ReviewSteps/DetailsStep.vue";
+import ConfirmationStep from "./ReviewSteps/ConfirmationStep.vue";
+import { Axios } from "axios";
+export default {
+    components: {
+        ReviewerStep,
+        MovieStep,
+        RatingStep,
+        DetailsStep,
+        ConfirmationStep,
+    },
     setup(props, { emit }) {
-        const firstName = ref('');
-        const lastName = ref('');
-        const selectedMovie = ref('');
+        const firstName = ref("");
+        const lastName = ref("");
+        const selectedMovie = ref("");
         const currentStep = ref(1);
         const movieRating = ref(0);
-        const movieReview = ref('');
+        const movieReview = ref("");
         const wouldRecommendToFriend = ref(false);
         const sawInGoldClass = ref(false);
+        const errors = ref({});
 
-        const updateReviewer = function(fname, lname) {
+        const updateReviewer = function (fname, lname) {
             firstName.value = fname;
             lastName.value = lname;
             currentStep.value++;
-        }
+        };
 
-        const updateMovie = function(movie) {
+        const updateMovie = function (movie) {
             selectedMovie.value = movie;
             currentStep.value++;
-        }
+        };
 
-        const updateReview = function(rating, review) {
+        const updateReview = function (rating, review) {
             movieRating.value = rating;
             movieReview.value = review;
             currentStep.value++;
-        }
+        };
 
-        const updateDetails = function(wouldRecommend, goldClass) {
+        const updateDetails = function (wouldRecommend, goldClass) {
             wouldRecommendToFriend.value = wouldRecommend;
             sawInGoldClass.value = goldClass;
             currentStep.value++;
-        }
+        };
+
+        const returnToStep = function (step) {
+            currentStep.value = step;
+        };
+
         return {
             firstName,
             lastName,
@@ -61,11 +103,13 @@ import DetailsStep from './ReviewSteps/DetailsStep.vue';
             updateMovie,
             updateReview,
             updateDetails,
-            currentStep
-        }
-    }
-}
-</script> 
+            currentStep,
+            storeReview,
+            returnToStep,
+        };
+    },
+};
+</script>
 
 <style>
 #form-container {
@@ -76,5 +120,4 @@ import DetailsStep from './ReviewSteps/DetailsStep.vue';
 .form-option {
     padding-bottom: 1rem;
 }
-
 </style>
