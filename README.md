@@ -1,7 +1,24 @@
 # HBK example app
 
-## Setup instructions (TODO)
+## Dependencies
+- PHP
+- Mysql
+- Node
+- NPM
+- Composer
+
+## Setup instructions
 
 Create mysql database and call it HBK_example. 
 
-Before running any commands, check info in .env.example is correct. (Mostly DB connection/host/port and default app URL)
+Copy and paste env.example and rename it .env. Update database connection if required.
+
+### Commands
+git clone https://github.com/nathanvarano/HBK.git
+composer install
+npm install
+php artisan migrate
+php artisan serve
+*open new terminal*
+npm run dev
+*open http://127.0.0.1:8000/*
